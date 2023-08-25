@@ -1,0 +1,6 @@
+body{ 
+  font-family:cursive
+}
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
