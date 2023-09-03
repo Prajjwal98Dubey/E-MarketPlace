@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const SearchWatch = ({prod}) => {
   return (
-    <Link to={"/product?pid="+prod._id}><div className='w-[1000px] h-[300px] m-2 shadow-lg hover:cursor-pointer hover:border hover:border-solid hover:border-purple-600 hover:scale-95  bg-white pt-[50px] rounded-lg '>
+    <Link to={"/product?pid="+prod._id}><div className='w-[900px] h-[300px] m-2 shadow-lg hover:cursor-pointer hover:border hover:border-solid hover:border-purple-600 hover:scale-95  bg-white pt-[50px] rounded-lg '>
         <div className="flex justify-around">
             <div>
               <img src={prod.image} alt="loading" className='w-[250px] h-[200px] rounded-xl' />
