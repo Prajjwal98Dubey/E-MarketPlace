@@ -1,6 +1,7 @@
 
 import React from 'react'
 import {useState,useEffect} from 'react'
+import {Link} from 'react-router-dom'
 const API="http://localhost:5001/products"
 
 const MostPopular = () => {
@@ -36,7 +37,7 @@ const MostPopular = () => {
     }
   return (
     <div className='bg-white w-full h-full flex flex-wrap mt-2 rounded-lg p-2'>
-      <div className=' hover:cursor-pointer w-[400px] h-[500px] hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
+      <Link to={'/product?pid='+getPopular(products,"Electronics")._id}><div className=' hover:cursor-pointer w-[400px] h-[500px] hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
         <div className='flex justify-center items-center'>
         <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Electronics").image} alt="loading" />
         </div>
@@ -46,7 +47,9 @@ const MostPopular = () => {
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
       </div>
-      <div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
+      </Link>
+
+      <Link to={'/product?pid='+getPopular(products,"Automobile")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
         <div className='flex justify-center items-center'>
         <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Automobile").image} alt="loading" />
         </div>
@@ -55,8 +58,8 @@ const MostPopular = () => {
         <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"Automobile").price}</div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div>
-      <div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
+      </div></Link>
+      <Link to={'/product?pid='+getPopular(products,"Clothing")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
         <div className='flex justify-center items-center'>
         <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Clothing").image} alt="loading" />
         </div>
@@ -65,8 +68,8 @@ const MostPopular = () => {
         <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"Clothing").price}</div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div>
-      <div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
+      </div></Link>
+      <Link to={'/product?pid='+getPopular(products,"Games")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
         <div className='flex justify-center items-center'>
         <img className="w-[400px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Games").image} alt="loading" />
         </div>
@@ -75,8 +78,8 @@ const MostPopular = () => {
         <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"Games").price}</div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div>
-      <div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
+      </div></Link>
+      <Link to={'/product?pid='+getPopular(products,"Shoes")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
         <div className='flex justify-center items-center'>
         <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Shoes").image} alt="loading" />
         </div>
@@ -85,8 +88,8 @@ const MostPopular = () => {
         <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"Shoes").price}</div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div>
-      <div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
+      </div></Link>
+      <Link to={'/product?pid='+getPopular(products,"HomeandFurniture")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
         <div className='flex justify-center items-center'>
         <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"HomeandFurniture").image} alt="loading" />
         </div>
@@ -95,7 +98,7 @@ const MostPopular = () => {
         <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"HomeandFurniture").price}</div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
         <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div>
+      </div></Link>
     
     
     
