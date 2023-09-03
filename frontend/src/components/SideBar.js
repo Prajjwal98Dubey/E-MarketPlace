@@ -2,16 +2,18 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
 import {useDispatch} from 'react-redux'
-import { applyFiltersPrice, applyFiltersRating } from './filterSlice'
+import { applyFiltersPrice, applyFiltersRating, applyFiltersSortBy } from './filterSlice'
 const SideBar = () => {
   const[price,setPrice]=useState('')
   const[ratings,setRatings]=useState('')
+  const[sortBy,setSortBy]=useState('')
   const dispatch=useDispatch()
   useEffect(()=>{
       dispatch(applyFiltersPrice(price))
       dispatch(applyFiltersRating(ratings))
+      dispatch(applyFiltersSortBy(sortBy))
     
-},[price,dispatch,ratings])
+},[price,dispatch,ratings,sortBy])
   return (
     <>
     <div className="w-[280px] h-[500px] border border-black mt-2 bg-white">
@@ -41,6 +43,18 @@ const SideBar = () => {
                   <option value="4.7">&gt;4.7</option>
                   <option value="4.4">&gt;4.4</option>
                   <option value="4">&gt;4</option>
+                </select>
+              </form>
+            </div>
+            <div className='flex justify-center'>
+              <form>
+                <label for="sortby">Sort by: </label>
+                <select className='border border-black' name="sortby" id="sortby" value={sortBy} onChange={(e)=>{
+                  setSortBy(e.target.value)
+                  }}>
+                  <option value="low">Low to High</option>
+                  <option value="high">High to Low</option>
+                  <option value="rating">Avg.Customer Reviews</option>
                 </select>
               </form>
             </div>
