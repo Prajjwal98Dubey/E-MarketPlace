@@ -17,7 +17,7 @@ const Cart = () => {
     <Header/>
     <Main/>
     <div className='p-4 m-2'>
-        {items.map((item)=><CartProducts item={item}/>)}
+        {items.map((item)=><CartProducts key={item._id} item={item}/>)}
     </div>
     {totalAmount ?
   <div className='w-full h-[55px] z-10 flex justify-evenly p-2 bg-white text-2xl fixed bottom-0 border border-t-gray-700'>

@@ -24,7 +24,7 @@ const SideBar = () => {
           <div>
             <div className='flex justify-center m-4 text-lg '>
               <form>
-                <label for="price">Choose Price: </label>
+                <label htmlFor="price">Choose Price: </label>
                 <select className='border border-black' name="price" id="price" value={price} onChange={(e)=>{
                   setPrice(e.target.value)
                   }}>
@@ -36,7 +36,7 @@ const SideBar = () => {
             </div>
             <div className='flex justify-center m-4 text-lg'>
               <form>
-                <label for="rating">Choose Rating: </label>
+                <label htmlFor="rating">Choose Rating: </label>
                 <select className='border border-black' name="rating" id="rating" value={ratings} onChange={(e)=>{
                   setRatings(e.target.value)
                   }}>
@@ -48,7 +48,7 @@ const SideBar = () => {
             </div>
             <div className='flex justify-center m-4 text-lg'>
               <form>
-                <div className='flex justify-center'><label for="sortby">Sort by: </label></div>
+                <div className='flex justify-center'><label htmlFor="sortby">Sort by: </label></div>
                 <select className='border border-black' name="sortby" id="sortby" value={sortBy} onChange={(e)=>{
                   setSortBy(e.target.value)
                   }}>

@@ -29,7 +29,7 @@ const SearchProducts = () => {
             filterData.sort(function (a, b) { return b.price - a.price })
           }
           if (filterSortBy === 'rating') {
-            filterData.sort(function (a, b) { return a.rating - b.rating })
+            filterData.sort(function (a, b) { return b.ratings - a.ratings })
           }
         }
         setProducts(filterData)

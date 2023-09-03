@@ -74,7 +74,7 @@ const CategoryProducts = () => {
          {isLoading ? <div className='flex justify-center'>loading</div> :<div className='bg-white rounded-lg mt-2'>
           <div className='flex '>
             <div className=''><SideBar/></div>
-            <div className=''>{items.map((prod)=><div className=''><SearchWatch prod={prod}/></div>)} </div> 
+            <div className=''>{items.map((prod)=><div key={prod._id} className=''><SearchWatch prod={prod}/></div>)} </div> 
          </div></div>}
          
        </div>
