@@ -8,6 +8,8 @@ import Cart from "./components/Cart";
 import SellerPage from "./components/SellerPage";
 import { ToastContainer } from "react-toastify";
 import BuyProduct from "./components/BuyProduct";
+import PaymentSuccess from "./components/PaymentSuccess";
+import PaymentFailure from "./components/PaymentFailure";
 
 
 function App() {
@@ -47,6 +49,16 @@ const appRouter=createBrowserRouter([
      {
           path:"/buy",
           element:<BuyProduct/>
+     },
+     {
+
+          path:'/success-payment',
+          element:<PaymentSuccess/>
+     },
+     {
+          path:'failure-payment',
+          element:<PaymentFailure/>
+
      }
 ])
 
