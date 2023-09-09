@@ -5,6 +5,7 @@ import Header from './Header'
 import CartProducts from './CartProducts'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToBuyPage, decrementProduct, incrementProduct, removeProduct } from './productSlice'
+import BuyProductCheckout from './BuyProductCheckout'
 
 const BuyProduct = () => {
     const item = useSelector(store => store.product.item)
@@ -53,7 +54,7 @@ const BuyProduct = () => {
              </div>
             </div>
             <div className='flex justify-center ml-[200px] '>
-                <div><button className='w-[200px] h-[50px] rounded-lg bg-green-500 hover:bg-green-600 text-white mt-2'>Pay ₹{item.price*item.quantity}</button></div>
+                <BuyProductCheckout item={item}/>
             </div>
             </div> 
         </>

@@ -5,8 +5,6 @@ const Stripe=require('stripe')
 const stripe = Stripe(process.env.STRIPE_KEY)
 const cors = require('cors')
 const mongoose = require('mongoose')
-
-
 app.use(express.json())
 app.use(cors())
 const start = async () => {
@@ -63,20 +61,21 @@ app.delete('/product/delete/:id',async(req,res)=>{
     res.json(product)
 })
 app.post('/create-checkout-session', async (req, res) => {
-    const line_items=req.body.items.map((item)=>{
-        return {
-            price_data:{
-                currency:'INR',
-                product_data:{
-                    name:item.name,
-                    image:[item.images]
-                },
-                unit_amount:item.price*100
-              },
-              quantity:item.Quantity,
-
-        }
-    })
+        const line_items=req.body?.items?.map((item)=>{
+            return {
+                price_data:{
+                    currency:'inr',
+                    product_data:{
+                        name:item.name,
+                        image:[item.images]
+                    },
+                    unit_amount:item.price*100
+                  },
+                  quantity:item.Quantity,
+    
+            }
+        })
+    
     const session = await stripe.checkout.sessions.create({
       line_items,
       mode: 'payment',
