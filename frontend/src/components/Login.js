@@ -26,6 +26,7 @@ const Login = () => {
             setMessage("Invalid email or password")
           }
           else{
+                localStorage.setItem('userInfo',data)
                 navigate('/')
           }
 
