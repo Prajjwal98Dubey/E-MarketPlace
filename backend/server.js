@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
+const bcrypt = require('bcrypt')
 require('dotenv').config()
-const Stripe=require('stripe')
+const Stripe = require('stripe')
 const stripe = Stripe(process.env.STRIPE_KEY)
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -34,7 +35,7 @@ app.put('/new/:id', async (req, res) => {
     category.save()
     res.json(category)
 })
-app.delete('/new/delete/:id',async(req,res)=>{
+app.delete('/new/delete/:id', async (req, res) => {
     const result = await home.findByIdAndDelete(req.params.id)
     res.json(result)
 })
@@ -44,7 +45,7 @@ app.get('/products', async (req, res) => {
     res.json(product)
 })
 app.post('/new-products', async (req, res) => {
-    const product = await  new Products({
+    const product = await new Products({
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
@@ -56,33 +57,70 @@ app.post('/new-products', async (req, res) => {
     product.save()
     res.json(product)
 })
-app.delete('/product/delete/:id',async(req,res)=>{
+app.delete('/product/delete/:id', async (req, res) => {
     const product = await Products.findByIdAndDelete(req.params.id)
     res.json(product)
 })
-app.post('/create-checkout-session', async (req, res) => {
-        const line_items=req.body?.items?.map((item)=>{
-            return {
-                price_data:{
-                    currency:'inr',
-                    product_data:{
-                        name:item.name,
-                        image:[item.images]
-                    },
-                    unit_amount:item.price*100
-                  },
-                  quantity:item.Quantity,
-    
-            }
+
+const User = require('./models/user')
+const authToken = require('./utils/authToken')
+app.post('/register', async (req, res) => {
+    const check_email = await User.findOne({ email: req.body.email })
+    if (check_email) {
+        res.send("User already exists")
+    }
+    else {
+        const user = await new User({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
         })
-    
+        const salt = await bcrypt.genSalt(10)
+        user.password = await bcrypt.hash(user.password, salt)
+        user.save()
+        const token = authToken(user)
+        res.send(token)
+    }
+})
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body
+    const data = await User.findOne({ email: req.body.email })
+    if (!data) {
+        res.send("User does not exits")
+    }
+    else if (!await bcrypt.compare(password,data.password)) {
+        res.send("Invalid email or password")
+    }
+    else {
+        const token = authToken(data)
+        res.send(token)
+    }
+
+})
+
+app.post('/create-checkout-session', async (req, res) => {
+    const line_items = req.body?.items?.map((item) => {
+        return {
+            price_data: {
+                currency: 'inr',
+                product_data: {
+                    name: item.name,
+                    image: [item.images]
+                },
+                unit_amount: item.price * 100
+            },
+            quantity: item.Quantity,
+
+        }
+    })
+
     const session = await stripe.checkout.sessions.create({
-      line_items,
-      mode: 'payment',
-      success_url: 'http://localhost:3000/success-payment',
-      cancel_url: 'http://localhost:3000/failure-payment',
+        line_items,
+        mode: 'payment',
+        success_url: 'http://localhost:3000/success-payment',
+        cancel_url: 'http://localhost:3000/failure-payment',
     });
-  
-    res.send({url:session.url});
-  });
+
+    res.send({ url: session.url });
+});
 start()
