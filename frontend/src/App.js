@@ -1,6 +1,6 @@
 
 import Body from "./components/Body";
-import {RouterProvider, createBrowserRouter} from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import SearchProducts from "./components/SearchProducts";
 import ProductDisplay from "./components/ProductDisplay";
 import CategoryProducts from "./components/CategoryProducts";
@@ -10,54 +10,64 @@ import { ToastContainer } from "react-toastify";
 import BuyProduct from "./components/BuyProduct";
 import PaymentSuccess from "./components/PaymentSuccess";
 import PaymentFailure from "./components/PaymentFailure";
+import Register from "./components/Register";
+import Login from "./components/Login";
 
 
 function App() {
-  return (
-       <>
-       <RouterProvider router ={appRouter}/>
-       <ToastContainer/>
-       </>
-  );
+     return (
+          <>
+               <RouterProvider router={appRouter} />
+               <ToastContainer />
+          </>
+     );
 }
 
-const appRouter=createBrowserRouter([
+const appRouter = createBrowserRouter([
      {
-      path:'/',
-      element:<Body/>
+          path: '/',
+          element: <Body />
      },
      {
-      path:'/search',
-      element:<SearchProducts/>
+          path: '/search',
+          element: <SearchProducts />
      },
      {
-      path:'/product',
-      element:<ProductDisplay/>
+          path: '/product',
+          element: <ProductDisplay />
      },
      {
-      path:'/category',
-      element:<CategoryProducts/>
+          path: '/category',
+          element: <CategoryProducts />
      },
      {
-          path:'/cart',
-          element:<Cart/>
+          path: '/cart',
+          element: <Cart />
      },
      {
-          path:'/seller',
-          element:<SellerPage/>
+          path: '/seller',
+          element: <SellerPage />
      },
      {
-          path:"/buy",
-          element:<BuyProduct/>
+          path: "/buy",
+          element: <BuyProduct />
+     },
+     {
+          path: '/register',
+          element: <Register />
+     },
+     {
+          path:'/login',
+          element:<Login/>
      },
      {
 
-          path:'/success-payment',
-          element:<PaymentSuccess/>
+          path: '/success-payment',
+          element: <PaymentSuccess />
      },
      {
-          path:'failure-payment',
-          element:<PaymentFailure/>
+          path: 'failure-payment',
+          element: <PaymentFailure />
 
      }
 ])
