@@ -6,9 +6,10 @@ import Main from './Main'
 import { useDispatch } from 'react-redux'
 import { addToCart } from './cartSlice'
 import 'react-toastify/dist/ReactToastify.css';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import { addToBuyPage } from './productSlice'
 import { Link } from 'react-router-dom'
+import productReview from './productReview'
 const API = "http://localhost:5001/products"
 
 const ProductDisplay = () => {
@@ -16,6 +17,7 @@ const ProductDisplay = () => {
   const [searchParams] = useSearchParams()
   const [product, setProduct] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [show, SetShow] = useState(false)
 
   useEffect(() => {
     const getProduct = async () => {
@@ -32,11 +34,11 @@ const ProductDisplay = () => {
   }
   const handleAddToCart = (product) => {
     dispatch(addToCart(product))
-    toast.success(product.name + " added!!!",{
-      position:"top-center"
+    toast.success(product.name + " added!!!", {
+      position: "top-center"
     })
   }
-  const handleAddProduct =(product)=>{
+  const handleAddProduct = (product) => {
     dispatch(addToBuyPage(product))
   }
   return (
@@ -46,7 +48,15 @@ const ProductDisplay = () => {
         <Main />
         <div>
           <div className='flex p-1'>
-            <div className="w-[270px] h-[290px] m-1 bg-white rounded-lg"></div>
+            <div className="w-[270px] h-[290px] m-1 bg-white rounded-lg">
+              <div className='flex justify-center m-1 p-1'>
+                <div>
+                <img className='w-[230px] h-[90px] border border-gray-300 rounded-lg m-[3px]' src={product[0].image} alt="loading" />
+                <img className='rounded-lg m-[3px] w-[230px] h-[90px] border border-gray-300' src={product[0].image}alt="loading" />
+                <img className=' rounded-lg m-[3px] w-[230px] h-[90px] border border-gray-300' src={product[0].image} alt="loading" />
+                </div>
+              </div>
+            </div>
             <div className="w-[500px] h-[290px] m-1 rounded-lg bg-white">
               <div className='flex justify-center'>
                 <div>
@@ -61,13 +71,13 @@ const ProductDisplay = () => {
                 <div>
                   <div className='text-3xl font-extrabold text-center m-1'>₹{product[0].price}/-</div>
                   <div className='text-xl line-through font-semibold text-center m-1'>₹{(product[0].price) + 2000}/-</div>
-                  <div className='text-xl font-bold text-center m-1'>{product[0].ratings}</div>
+                  <div className='text-xl font-bold text-center m-1'>⭐{product[0].ratings}</div>
                 </div>
               </div>
             </div>
             <div className="w-[270px] h-[290px] m-1 bg-white rounded-lg ">
               <div className='p-2 mt-[70px]'>
-                <div><Link to={"/buy?pid="+product[0]._id}><button className='w-[240px] h-[45px] font-bold bg-green-500 m-2 rounded-xl hover:bg-green-700' onClick={()=>{
+                <div><Link to={"/buy?pid=" + product[0]._id}><button className='w-[240px] h-[45px] font-bold bg-green-500 m-2 rounded-xl hover:bg-green-700' onClick={() => {
                   handleAddToCart(product[0])
                   handleAddProduct(product[0])
                 }}>BUY NOW</button></Link></div>
@@ -81,8 +91,26 @@ const ProductDisplay = () => {
           <div className='flex justify-center'>
             <div className='text-center font-semibold text-xl w-[850px] mt-2'>{product[0].description}</div> </div>
         </div>
-        <div className='w-full h-[500px] bg-white mt-2 rounded-lg text-center font-bold text-xl'>
-          Reviews
+        <div className='h-fit bg-white mt-2 rounded-lg p-2'>
+          <div className='flex justify-center text-xl font-bold'>Reviews</div>
+          {productReview.slice(0, 5).map((review) =>
+            <div className=' h-fit m-2 p-2 rounded-lg border border-gray-300'>
+              <div className='flex justify-center'>
+                <div className='mt-[2px] p-1'>⭐{review.ratings}</div>
+                <div className='text-xl font-bold p-1'>{review.title}</div>
+              </div>
+              <div>{review.description}</div>
+            </div>
+          )}
+          {show ? <div>{productReview.slice(5,).map((review) =>
+            <div className=' h-fit m-2 p-2 rounded-lg border border-gray-300'>
+              <div className='flex justify-center'>
+                <div className='mt-[2px] p-1'>⭐{review.ratings}</div>
+                <div className='text-xl font-bold p-1'>{review.title}</div>
+              </div>
+              <div>{review.description}</div>
+            </div>
+          )} </div> : <div className='flex justify-center'><div className='text-xl font-semibold w-fit  hover:cursor-pointer hover:text-blue-800' onClick={() => SetShow(true)}>All Reviews</div></div>}
         </div>
       </div>
 
