@@ -7,12 +7,14 @@ import BreakLine from './BreakLine'
 import MostPopular from './MostPopular'
 import Footer from './Footer'
 import { ToastContainer } from 'react-toastify'
+import ImageSlider from './ImageSlider'
 
 const Body = () => {
   return (
     <div className="p-2 bg-gray-200 h-full">
       <Header/>
       <Main/>
+      <ImageSlider/>
       <RecentlyUsedBreakLine/>
       <RecentlyAdded/>
       <BreakLine/>

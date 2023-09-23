@@ -20,7 +20,7 @@ const Header = () => {
             </div>
             {dropdown ?
               <div >
-                <div className='absolute rounded-lg cursor-default border border-gray-400 bg-white w-[120px] h-[50px]flex justify-center '><button className='w-[100px] h-[30px] flex justify-center m-2 rounded-lg bg-orange-600 text-white' onClick={() => {
+                <div className='absolute rounded-lg cursor-default border border-gray-400 bg-white w-[120px] h-[50px]flex justify-center '><button className='w-[100px] h-[30px] flex justify-center m-2 rounded-lg bg-orange-600 text-white z-100' onClick={() => {
                   localStorage.removeItem('userInfo')
                   setDropDown(false)
                 }}>Logout</button></div></div> : null}
