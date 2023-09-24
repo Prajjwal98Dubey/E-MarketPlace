@@ -37,11 +37,12 @@ const Login = () => {
         <form onSubmit={submitHandler}>
             <div className='mt-[120px]'>
                 <div>
+                    <div className='text-xl flex justify-center font-semibold '>Login</div>
                     <div>
-                        <input className='w-[340px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg'  type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Enter your email" />
+                        <input className='w-[450px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg'  type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Enter your email" />
                     </div>
                     <div>
-                        <input className='w-[340px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg' type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Enter your password"/>
+                        <input className='w-[450px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg' type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Enter your password"/>
                     </div>
                     <div className='flex justify-center'>
                          <button className=' bg-blue-600 w-[150px] h-[30px] text-white rounded-lg shadow-lg hover:bg-blue-700' type="submit">Login</button>

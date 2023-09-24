@@ -35,17 +35,19 @@ const Register = () => {
     <>
     <div className='flex justify-center'>
      <div className='flex justify-center m-10 w-[1000px]  h-[500px]  border border-gray-500 rounded-lg shadow-lg'>
+     
         <form onSubmit={submitHandler}>
             <div className='mt-[120px]'>
                 <div>
+                <div className='flex justify-center text-xl font-semibold m-2'>Register with us </div>
                     <div>
-                        <input className='w-[340px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg'  type="text" value={name} onChange={(e)=>setName(e.target.value)}  placeholder="Enter your name"/>
+                        <input className='w-[450px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg'  type="text" value={name} onChange={(e)=>setName(e.target.value)}  placeholder="Enter your name"/>
                     </div>
                     <div>
-                        <input className='w-[340px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg'  type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Enter your email" />
+                        <input className='w-[450px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg'  type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Enter your email" />
                     </div>
                     <div>
-                        <input className='w-[340px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg' type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Enter your password"/>
+                        <input className='w-[450px] p-2 m-2 border border-gray-300 h-[40px] text-md rounded-lg shadow-lg' type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Enter your password"/>
                     </div>
                     <div className='flex justify-center'>
                          <button className=' bg-blue-600 w-[150px] h-[30px] text-white rounded-lg shadow-lg hover:bg-blue-700' type="submit">Submit</button>
