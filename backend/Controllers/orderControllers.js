@@ -30,7 +30,8 @@ const showOrders =async(req,res)=>{
 const removeFromProducts = async(req,res)=>{
     const{token,productId} = req.body
     const decoded = jwt.decode(token).id
-    const checkProduct = await Orders.find({user:decoded,productId:productId})
+    const checkProduct = await Orders.findOne({user:decoded,productId:productId})
+    console.log(checkProduct)
     checkProduct.quantity-=1
     checkProduct.save()
     res.json(checkProduct)

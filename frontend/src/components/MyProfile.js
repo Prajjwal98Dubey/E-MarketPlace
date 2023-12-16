@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Header from './Header'
-import { handleAddToMyCart } from './helper/addToMyCart'
+import { handleAddToMyCart, handleRemoveFromMyCart } from './helper/addToMyCart'
 const SHOW_PRODUCTS = 'http://localhost:5001/showOrders'
 const REMOVE_PRODUCT = 'http://localhost:5001/removeProduct'
 const MyProfile = () => {
@@ -26,27 +26,14 @@ const MyProfile = () => {
     }
     getResults()
   }, [temp])
-  const handleRemoveFromMyCart=async(id)=>{
-    const config = {
-      headers: {
-        'Content-type': 'application/json',
-        'Authorization': `Bearer ${JSON.parse(localStorage.getItem("userDetails")).token}`
-      }
-    }
-    await axios.post(REMOVE_PRODUCT,{
-      token:JSON.parse(localStorage.getItem("userDetails")).token,
-      productId:id
-
-    },config)
-  }
   return (
     <>
       <Header />
       {isloading ? <div className="flex justify-center">Loading...</div> :
         <div>
           {products.map((prod) => (
-            <div className='flex justify-around hover:border hover:border-purple-500 hover:cursor-pointer shadow-lg rounded-lg p-2 m-2'>
-              <div className='w-1/3'>
+            <div key={prod._id} className=' flex justify-around hover:border hover:border-purple-500 hover:cursor-pointer shadow-lg rounded-lg p-2 m-2'>
+              <div  className='w-1/3'>
                 <div className='flex'>
                   <div className='m-2'>
                     <img src={prod.product[0].image} alt="loading" className='w-[200px] h-[170px] rounded-lg ' />
@@ -68,7 +55,7 @@ const MyProfile = () => {
               </div>
               <div className='w-1/3 h-[200px] flex justify-center items-center'>
                     <div className=' flex justify-center items-center'>
-                        <div onClick={()=>handleRemoveFromMyCart(prod.productId)} className='w-[70px] flex justify-center rounded-l-lg border border-black hover:cursor-pointer hover:bg-gray-400'>-</div>
+                        <div onClick={()=>handleRemoveFromMyCart(prod.productId,temp,setTemp)} className='w-[70px] flex justify-center rounded-l-lg border border-black hover:cursor-pointer hover:bg-gray-400'>-</div>
                         <div className='w-[70px] flex justify-center  border border-black'>
                           {prod.quantity}
                         </div>
