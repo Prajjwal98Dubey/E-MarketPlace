@@ -13,21 +13,9 @@ const Header = () => {
       <div className='w-full flex justify-around sticky top-0 z-10 p-2 bg-white rounded-lg shadow-xl'>
         <Link to="/"><div className="text-3xl">Home</div></Link>
         <div><NavBar /></div>
-        <div>{localStorage.getItem('userInfo') ?
-          <div>
-            <div onClick={() => setDropDown(true)} className='text-blue-600 font-semibold mt-2 cursor-pointer'>
-              {decoded.email}
-            </div>
-            {dropdown ?
-              <div >
-                <div className='absolute rounded-lg cursor-default border border-gray-400 bg-white w-[120px] h-[50px]flex justify-center '><button className='w-[100px] h-[30px] flex justify-center m-2 rounded-lg bg-orange-600 text-white z-100' onClick={() => {
-                  localStorage.removeItem('userInfo')
-                  setDropDown(false)
-                }}>Logout</button></div></div> : null}
-          </div>
-
-          : <Link to='/login'><div><button className='w-[135px] rounded-lg shadow-lg hover:bg-blue-800 h-[35px] text-white bg-blue-600 p-1 m-1'>Login</button></div></Link>}</div>
-
+        {JSON.parse(localStorage.getItem("userDetails"))?<div>
+          <Link to="/my-profile"><div className = "bg-blue-500 w-[40px] h-[40px] flex justify-center items-center rounded-full text-white text-2xl hover:bg-blue-700 hover:cursor-pointer">{JSON.parse(localStorage.getItem("userDetails")).email.charAt(0).toUpperCase()}</div></Link>
+        </div> :<Link to="/login"><div><button className='bg-blue-500 text-white text-xl rounded-md w-[120px] h-[35px] mt-[6px]'>Login</button></div></Link>}
         <div className='w-[250px] flex justify-between text-xl mt-2'>
           <Link to="/seller"><div className='mr-4 hover:underline hover:cursor-pointer'>Become a Seller</div></Link>
           <Link to="/cart"><div className=' hover:cursor-pointer flex w-[70px] hover:rounded-lg hover:bg-yellow-300 justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" /></svg>

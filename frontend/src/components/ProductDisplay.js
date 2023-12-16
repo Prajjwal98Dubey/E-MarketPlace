@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import { addToBuyPage } from './productSlice'
 import { Link } from 'react-router-dom'
 import productReview from './productReview'
+import { handleAddToMyCart } from './helper/addToMyCart'
 const API = "http://localhost:5001/products"
 
 const ProductDisplay = () => {
@@ -43,7 +44,7 @@ const ProductDisplay = () => {
   }
   return (
     <>
-      <div className="p-2 bg-gray-200 h-full">
+      <div className="p-2 bg-gray-200 h-full animate-fade">
         <Header />
         <Main />
         <div>
@@ -81,7 +82,10 @@ const ProductDisplay = () => {
                   handleAddToCart(product[0])
                   handleAddProduct(product[0])
                 }}>BUY NOW</button></Link></div>
-                <div onClick={() => handleAddToCart(product[0])}><button className='w-[240px] h-[45px] font-bold bg-amber-500 m-2 rounded-xl hover:bg-amber-700'>ADD TO CART</button></div>
+                <div onClick={() => {
+                  handleAddToCart(product[0])
+                  handleAddToMyCart(product[0])
+                  }}><button className='w-[240px] h-[45px] font-bold bg-amber-500 m-2 rounded-xl hover:bg-amber-700'>ADD TO CART</button></div>
               </div>
             </div>
           </div>
@@ -93,8 +97,8 @@ const ProductDisplay = () => {
         </div>
         <div className='h-fit bg-white mt-2 rounded-lg p-2'>
           <div className='flex justify-center text-xl font-bold'>Reviews</div>
-          {productReview.slice(0, 5).map((review) =>
-            <div className=' h-fit m-2 p-2 rounded-lg border border-gray-300'>
+          {productReview.slice(0, 5).map((review,index) =>
+            <div key={index} className=' h-fit m-2 p-2 rounded-lg border border-gray-300'>
               <div className='flex justify-center'>
                 <div className='mt-[2px] p-1'>⭐{review.ratings}</div>
                 <div className='text-xl font-bold p-1'>{review.title}</div>
@@ -102,8 +106,8 @@ const ProductDisplay = () => {
               <div>{review.description}</div>
             </div>
           )}
-          {show ? <div>{productReview.slice(5,).map((review) =>
-            <div className=' h-fit m-2 p-2 rounded-lg border border-gray-300'>
+          {show ? <div>{productReview.slice(5,).map((review,index) =>
+            <div key={index} className=' h-fit m-2 p-2 rounded-lg border border-gray-300'>
               <div className='flex justify-center'>
                 <div className='mt-[2px] p-1'>⭐{review.ratings}</div>
                 <div className='text-xl font-bold p-1'>{review.title}</div>

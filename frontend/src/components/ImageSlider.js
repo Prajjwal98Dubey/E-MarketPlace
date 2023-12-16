@@ -25,12 +25,12 @@ const SlideShow =({images})=>{
         <>
         <div className='flex justify-center mt-2 relative'>
             <div className=''>
-            {images.map((image,i)=>
-        <div className={`${active===i?"animate-fade":"hidden"}`}><Slide key={image.captions} active={active} image_url={image.image_url}/></div>
+            {images.map((image,index)=>
+        <div className={`${active===index?"animate-fade":"hidden"}`}><Slide key={index} active={active} image_url={image.image_url}/></div>
         )}
         <div className='absolute text-6xl top-12 right-4 cursor-pointer' onClick={()=>nextImage()}>&gt;</div>
         <div className='absolute text-6xl top-12 left-4 cursor-pointer' onClick={()=>prevImage()}>&lt;</div>
-        <div className='flex justify-center mt-2'>{images.map((image,i)=><div key={image.captions} className={`w-[30px] h-[30px] rounded-full cursor-pointer m-5  ${active===i ? "bg-blue-500 animate-fade" :"bg-gray-400"}`} onClick={()=>setActive(i)}></div>)}</div>
+        <div className='flex justify-center mt-2'>{images.map((image,index)=><div key={index} className={`w-[30px] h-[30px] rounded-full cursor-pointer m-5  ${active===index ? "bg-blue-500 animate-fade" :"bg-gray-400"}`} onClick={()=>setActive(index)}></div>)}</div>
             </div>
         
         </div>

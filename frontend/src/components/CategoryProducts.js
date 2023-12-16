@@ -61,10 +61,6 @@ const CategoryProducts = () => {
         getItems()
 
     },[searchParams,filterPrice,filterRating,filterSortBy])
-
-    // if(isLoading){
-    //     return <div>Loading</div>
-    // }
   return (
     <>
 

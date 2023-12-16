@@ -19,20 +19,20 @@ const Login = () => {
             email,password
         },config)
           if(data==='User does not exits'){
-               setMessage("User does not exits")
+               setMessage("User does not exists")
           }
           else if(data==='Invalid email or password')
           {
             setMessage("Invalid email or password")
           }
           else{
-                localStorage.setItem('userInfo',data)
+                localStorage.setItem('userDetails',JSON.stringify(data))
                 navigate('/')
           }
 
     }
   return (
-    <div className='flex justify-center'>
+    <div className='flex justify-center animate-fade'>
      <div className='flex justify-center m-10 w-[1000px]  h-[500px]  border border-gray-500 rounded-lg shadow-lg'>
         <form onSubmit={submitHandler}>
             <div className='mt-[120px]'>

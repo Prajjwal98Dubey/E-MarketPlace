@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import RecentlyAddedProducts from './RecentlyAddedProducts'
@@ -26,12 +25,12 @@ const RecentlyAdded = () => {
     }, [isLoading, products])
 
     if (isLoading) {
-        return <div className='flex justify-center items-center'>Loading...</div>
+        return <div className=' font-Roboto flex justify-center items-center'>Loading...</div>
     }
     return (
         <>
-        <div className='flex justify-center '>
-            <div className='w-full h-full rounded-xl bg-white flex flex-wrap justify-evenly'>
+        <div className='flex justify-center animate-fade font-Dosis '>
+            <div className='w-full h-full flex flex-wrap justify-evenly'>
                {recently.map((recent)=><RecentlyAddedProducts key={recent._id} recent={recent}/>)}
             </div>
             </div>

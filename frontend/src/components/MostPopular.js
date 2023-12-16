@@ -35,7 +35,7 @@ const MostPopular = () => {
         return maxiObj      
     }
   return (
-    <div className='bg-white w-full h-full flex flex-wrap mt-2 rounded-lg p-2'>
+    <div className='bg-white w-full h-full flex flex-wrap mt-2 rounded-lg p-2 font-Roboto'>
       <Link to={'/product?pid='+getPopular(products,"Electronics")._id}><div className=' hover:cursor-pointer w-[400px] h-[500px] hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
         <div className='flex justify-center items-center'>
         <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Electronics").image} alt="loading" />

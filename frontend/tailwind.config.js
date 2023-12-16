@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily:{
+        Roboto:["Roboto Condensed"," sans-serif"],
+        Dosis:["Dosis","sans-serif"]
+      },
       keyframes: {
         'fade': {
             '0%': {

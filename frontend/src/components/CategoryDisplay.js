@@ -15,10 +15,4 @@ const CategoryDisplay = ({category}) => {
    </>
   )
 }
-
-
-{/* <Link to={"/category?q="+category.category}><div className='hover:cursor-pointer hover:text-blue-600  '>
-            <div><img className='w-[130px] h-[110px] rounded-lg border border-black'src={category.categoryImg} alt="loading" /></div>
-            <div className='text-center font-semibold'>{category.category}</div>
-        </div></Link> */}
 export default CategoryDisplay

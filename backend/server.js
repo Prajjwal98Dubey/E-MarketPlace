@@ -64,39 +64,51 @@ app.delete('/product/delete/:id', async (req, res) => {
 
 const User = require('./models/user')
 const authToken = require('./utils/authToken')
+const { protect } = require('./utils/authMiddleware')
+const { orderDetails, showOrders, removeFromProducts } = require('./Controllers/orderControllers')
 app.post('/register', async (req, res) => {
-    const check_email = await User.findOne({ email: req.body.email })
+    const { name, email, password } = req.body
+    const check_email = await User.findOne({ email: email })
     if (check_email) {
         res.send("User already exists")
     }
     else {
-        const user = await new User({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
-        })
         const salt = await bcrypt.genSalt(10)
-        user.password = await bcrypt.hash(user.password, salt)
+        const newPassword = await bcrypt.hash(password, salt)
+        const user  = await User.create({
+            name:name,
+            email:email,
+            password:newPassword
+        })
         user.save()
-        const token = authToken(user)
-        res.send(token)
+        res.json({
+            _id:user._id,
+            email:user.email,
+            token:authToken(user._id)
+        })
     }
 })
 app.post('/login', async (req, res) => {
     const { email, password } = req.body
-    const data = await User.findOne({ email: req.body.email })
+    const data = await User.findOne({ email: email })
     if (!data) {
         res.send("User does not exits")
     }
-    else if (!await bcrypt.compare(password,data.password)) {
+    else if (!await bcrypt.compare(password, data.password)) {
         res.send("Invalid email or password")
     }
     else {
-        const token = authToken(data)
-        res.send(token)
+        res.json({
+            email:email,
+            token:authToken(data._id)
+        })
     }
 
 })
+
+app.post('/addProducts',protect,orderDetails)
+app.post('/showOrders',protect,showOrders)
+app.post('/removeProduct',protect,removeFromProducts)
 
 app.post('/create-checkout-session', async (req, res) => {
     const line_items = req.body?.items?.map((item) => {

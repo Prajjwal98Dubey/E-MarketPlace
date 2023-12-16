@@ -12,6 +12,7 @@ import PaymentSuccess from "./components/PaymentSuccess";
 import PaymentFailure from "./components/PaymentFailure";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import MyProfile from "./components/MyProfile";
 
 
 function App() {
@@ -69,6 +70,10 @@ const appRouter = createBrowserRouter([
           path: 'failure-payment',
           element: <PaymentFailure />
 
+     },
+     {
+          path:'/my-profile',
+          element:<MyProfile/>
      }
 ])
 

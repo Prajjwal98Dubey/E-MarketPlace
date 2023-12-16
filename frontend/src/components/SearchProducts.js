@@ -56,7 +56,7 @@ const SearchProducts = () => {
   }, [searchParams, filterPrice, filterRating,filterSortBy])
   return (
     <>
-      <div className='p-2 bg-gray-200 h-full'>
+      <div className='p-2 bg-gray-200 h-full animate-fade'>
         <Header />
         <Main />
         <div className='flex'>
