@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Header from './Header'
 import { handleAddToMyCart, handleRemoveFromMyCart, handleRemoveProductFromMyCart, totalAmountOfMyCart } from './helper/addToMyCart'
@@ -10,6 +10,8 @@ const MyProfile = () => {
   const [isloading, setIsLoading] = useState(true)
   const[temp,setTemp]=useState(false)
   const[totalAmount,setTotalAmount]=useState(0)
+  const navigate = useNavigate()
+  const[isHoveredLogout,setIsHoveredLogout]=useState(false)
   useEffect(() => {
     const config = {
       headers: {
@@ -28,9 +30,12 @@ const MyProfile = () => {
     getResults()
     totalAmountOfMyCart().then((res)=>setTotalAmount(res))
   }, [temp])
+  const handleLogOut=()=>{
+    localStorage.removeItem("userDetails")
+    navigate('/')
+  }
   return (
     <>
-    {/* {!isloading &&  totalAmount.then((res)=>console.log(res))} */}
       <Header />
       {isloading ? 
       <div className="flex justify-center">Loading...</div> :
@@ -73,6 +78,12 @@ const MyProfile = () => {
           ))}
 
           <div className=' mt-[15px] font-Roboto flex justify-between items-center fixed bottom-0  w-full h-[70px] border border-t-black z-10 bg-white pl-[130px]'>
+
+
+            <div className='cursor-pointer relative' onMouseEnter={()=>setIsHoveredLogout(true)} onMouseLeave={()=>setIsHoveredLogout(false)} onClick={()=>handleLogOut()}><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out transform rotate-180"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg></div>
+            {isHoveredLogout && <div className='absolute left-11 bottom-1 w-[90px] h-[30px] flex justify-center bg-gray-300 rounded-lg items-center '>Logout</div>}
+
+
             <div className='text-2xl hover:text-red-600 hover:underline hover:cursor-pointer p-2'>Clear Cart</div>
             <div className='hover:cursor-pointer p-2 flex justify-center items-center text-2xl w-[300px] h-[40px] rounded-lg hover:bg-orange-600 bg-[#fb641b]'>Place Order</div>
             
