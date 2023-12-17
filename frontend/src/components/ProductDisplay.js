@@ -11,8 +11,9 @@ import { addToBuyPage } from './productSlice'
 import { Link } from 'react-router-dom'
 import productReview from './productReview'
 import { handleAddToMyCart } from './helper/addToMyCart'
+import axios from 'axios'
 const API = "http://localhost:5001/products"
-
+const ADD_PRODUCTS = 'http://localhost:5001/addProducts'
 const ProductDisplay = () => {
   const dispatch = useDispatch()
   const [searchParams] = useSearchParams()
@@ -42,6 +43,19 @@ const ProductDisplay = () => {
   const handleAddProduct = (product) => {
     dispatch(addToBuyPage(product))
   }
+  const handleAddToMyCartTemp = async (recent) => {
+    const config = {
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${JSON.parse(localStorage.getItem("userDetails")).token}`
+        }
+    }
+    await axios.post(ADD_PRODUCTS, {
+        token: JSON.parse(localStorage.getItem("userDetails")).token,
+        productId: recent._id
+    }, config)
+
+}
   return (
     <>
       <div className="p-2 bg-gray-200 h-full animate-fade">
@@ -84,7 +98,7 @@ const ProductDisplay = () => {
                 }}>BUY NOW</button></Link></div>
                 <div onClick={() => {
                   handleAddToCart(product[0])
-                  handleAddToMyCart(product[0])
+                  handleAddToMyCartTemp(product[0])
                   }}><button className='w-[240px] h-[45px] font-bold bg-amber-500 m-2 rounded-xl hover:bg-amber-700'>ADD TO CART</button></div>
               </div>
             </div>

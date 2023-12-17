@@ -65,7 +65,7 @@ app.delete('/product/delete/:id', async (req, res) => {
 const User = require('./models/user')
 const authToken = require('./utils/authToken')
 const { protect } = require('./utils/authMiddleware')
-const { orderDetails, showOrders, removeFromProducts } = require('./Controllers/orderControllers')
+const { orderDetails, showOrders, removeFromProducts, removeFromMyCart, calculateTotalAmount } = require('./Controllers/orderControllers')
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body
     const check_email = await User.findOne({ email: email })
@@ -75,16 +75,16 @@ app.post('/register', async (req, res) => {
     else {
         const salt = await bcrypt.genSalt(10)
         const newPassword = await bcrypt.hash(password, salt)
-        const user  = await User.create({
-            name:name,
-            email:email,
-            password:newPassword
+        const user = await User.create({
+            name: name,
+            email: email,
+            password: newPassword
         })
         user.save()
         res.json({
-            _id:user._id,
-            email:user.email,
-            token:authToken(user._id)
+            _id: user._id,
+            email: user.email,
+            token: authToken(user._id)
         })
     }
 })
@@ -99,16 +99,18 @@ app.post('/login', async (req, res) => {
     }
     else {
         res.json({
-            email:email,
-            token:authToken(data._id)
+            email: email,
+            token: authToken(data._id)
         })
     }
 
 })
 
-app.post('/addProducts',protect,orderDetails)
-app.post('/showOrders',protect,showOrders)
-app.post('/removeProduct',protect,removeFromProducts)
+app.post('/addProducts', protect, orderDetails)
+app.post('/showOrders', protect, showOrders)
+app.post('/removeProduct', protect, removeFromProducts)
+app.delete('/removeFromCart/:token/:id', protect, removeFromMyCart)
+app.post('/totalCartAmount', protect, calculateTotalAmount)
 
 app.post('/create-checkout-session', async (req, res) => {
     const line_items = req.body?.items?.map((item) => {
