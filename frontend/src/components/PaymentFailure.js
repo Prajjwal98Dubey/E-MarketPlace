@@ -1,11 +1,9 @@
-
-
 import React from 'react'
 import {Link} from 'react-router-dom'
 const PaymentFailure = () => {
   return (
     <>
-     <div className='flex justify-center mt-[200px] font-mono animate-fade'>
+     <div className='flex justify-center mt-[200px] font-Roboto animate-fade'>
         <div>
           <div className='ml-[103px]'><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e61414" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
         <div className=' font-bold mt-8 text-3xl'>Payment Failed...</div>

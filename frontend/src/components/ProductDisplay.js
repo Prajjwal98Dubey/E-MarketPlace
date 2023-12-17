@@ -98,7 +98,7 @@ const ProductDisplay = () => {
                 }}>BUY NOW</button></Link></div>
                 <div onClick={() => {
                   handleAddToCart(product[0])
-                  handleAddToMyCartTemp(product[0])
+                  localStorage.getItem("userDetails") && handleAddToMyCartTemp(product[0])
                   }}><button className='w-[240px] h-[45px] font-bold bg-amber-500 m-2 rounded-xl hover:bg-amber-700'>ADD TO CART</button></div>
               </div>
             </div>
