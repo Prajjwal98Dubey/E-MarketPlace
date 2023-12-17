@@ -5,6 +5,8 @@ import Header from './Header'
 import { handleAddToMyCart, handleRemoveFromMyCart, handleRemoveProductFromMyCart, totalAmountOfMyCart } from './helper/addToMyCart'
 import { handleCheckout } from './helper/checkOutMethod'
 import { conversionToStripeArray } from './helper/conversionToArrayofStripe'
+import { useDispatch } from 'react-redux'
+import { clearCart } from './cartSlice'
 const SHOW_PRODUCTS = 'http://localhost:5001/showOrders'
 const REMOVE_PRODUCT = 'http://localhost:5001/removeProduct'
 const MyProfile = () => {
@@ -14,6 +16,7 @@ const MyProfile = () => {
   const[totalAmount,setTotalAmount]=useState(0)
   const navigate = useNavigate()
   const[isHoveredLogout,setIsHoveredLogout]=useState(false)
+  const dispatch = useDispatch()
   useEffect(() => {
     const config = {
       headers: {
@@ -34,16 +37,15 @@ const MyProfile = () => {
   }, [temp])
   const handleLogOut=()=>{
     localStorage.removeItem("userDetails")
+    dispatch(clearCart())
     navigate('/')
   }
   return (
     <>
       <Header />
-      
       {isloading ? 
       <div className="flex justify-center">Loading...</div> :
         <div className='relative mb-[100px]'>
-          {console.log(conversionToStripeArray(products))}
           {products.map((prod) => (
             <div key={prod._id} className=' font-Roboto flex justify-evenly hover:border hover:border-purple-500 hover:cursor-pointer shadow-lg rounded-lg p-2 m-2'>
               <div  className='w-1/2'>

@@ -42,7 +42,6 @@ const removeFromProducts = async (req, res) => {
 const removeFromMyCart = async (req, res) => {
     const { token, id } = req.params
     const userId = jwt.decode(token).id
-    // calculateTotalAmount()
     await Orders.findOneAndDelete({ user: userId, productId: id })
     res.json({ message: "product remove successfully." })
 }
@@ -57,5 +56,19 @@ const calculateTotalAmount = async (req, res) => {
     res.json({totalCartAmount:totalCartAmount})
     return totalCartAmount
 }
-
-module.exports = { orderDetails, showOrders, removeFromProducts, removeFromMyCart ,calculateTotalAmount }
+const copyProductFromCartToUser = async(req,res)=>{
+    const{token,productId,Quantity} = req.body
+    const userId = jwt.decode(token).id
+    const product = await Product.find({_id:productId})
+    const amount = Quantity*product[0].price 
+    const order = await Orders.create({
+        user:userId,
+        productId : productId,
+        product:product,
+        quantity:Quantity,
+        totalAmount:amount
+    })
+    order.save()
+    res.json({order})
+}
+module.exports = { orderDetails, showOrders, removeFromProducts, removeFromMyCart ,calculateTotalAmount,copyProductFromCartToUser }

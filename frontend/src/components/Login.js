@@ -2,12 +2,14 @@ import {Link} from 'react-router-dom'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
-
+import { useSelector } from 'react-redux'
+const COPY_FROM_CART_TO_USER = 'http://localhost:5001/copyFromCartToUser'
 const Login = () => {
     const[email,setEmail] = useState("")
     const[password,setPassword] = useState("")
     const[message,setMessage]=useState(null)
     const navigate=useNavigate()
+    const items = useSelector(store=>store.cart.items)
     const submitHandler=async(e)=>{
         e.preventDefault()
         const config={
@@ -27,7 +29,25 @@ const Login = () => {
           }
           else{
                 localStorage.setItem('userDetails',JSON.stringify(data))
-                navigate('/')
+                const config1 = {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${JSON.parse(localStorage.getItem("userDetails")).token}`
+                    }
+                }
+                  const currToken= JSON.parse(localStorage.getItem("userDetails")).token
+                  const addCartToUser = async(productId,Quantity)=>{
+                      await axios.post(COPY_FROM_CART_TO_USER,{
+                        token:currToken,
+                        productId:productId,
+                        Quantity:Quantity
+                      },config1)
+                  }
+                  localStorage.getItem("userDetails") && items.length!==0 && items.map((item)=>(
+                            addCartToUser(item._id,item.Quantity)
+                  ))
+
+                  navigate('/')
           }
 
     }
