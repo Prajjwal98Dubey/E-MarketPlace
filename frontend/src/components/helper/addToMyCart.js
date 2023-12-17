@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 const ADD_PRODUCTS = 'http://localhost:5001/addProducts'
 const REMOVE_PRODUCT = 'http://localhost:5001/removeProduct'
 const REMOVE_FROM_MY_CART='http://localhost:5001/removeFromCart'
+const TOTAL_AMOUNT_CART=  'http://localhost:5001/totalCartAmount'
 export const handleAddToMyCart = async (recent,temp,setTemp) => {
     const config = {
         headers: {
@@ -51,4 +52,19 @@ export const handleRemoveProductFromMyCart=async(id,temp,setTemp)=>{
     toast.error("Item Removed",{
         position:'top-center'
     })
+}
+
+
+export const totalAmountOfMyCart = async()=>{
+  const config = {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': `Bearer ${JSON.parse(localStorage.getItem("userDetails")).token}`
+    }
+  }
+  const {data} =  await axios.post(TOTAL_AMOUNT_CART,{
+    token:JSON.parse(localStorage.getItem("userDetails")).token
+  },config)
+  return data.totalCartAmount
+
 }

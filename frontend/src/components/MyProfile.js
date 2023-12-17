@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Header from './Header'
-import { handleAddToMyCart, handleRemoveFromMyCart, handleRemoveProductFromMyCart } from './helper/addToMyCart'
+import { handleAddToMyCart, handleRemoveFromMyCart, handleRemoveProductFromMyCart, totalAmountOfMyCart } from './helper/addToMyCart'
 const SHOW_PRODUCTS = 'http://localhost:5001/showOrders'
 const REMOVE_PRODUCT = 'http://localhost:5001/removeProduct'
 const MyProfile = () => {
   const [products, setProducts] = useState([])
   const [isloading, setIsLoading] = useState(true)
   const[temp,setTemp]=useState(false)
+  const[totalAmount,setTotalAmount]=useState(0)
   useEffect(() => {
     const config = {
       headers: {
@@ -25,14 +26,17 @@ const MyProfile = () => {
       setIsLoading(false)
     }
     getResults()
+    totalAmountOfMyCart().then((res)=>setTotalAmount(res))
   }, [temp])
   return (
     <>
+    {/* {!isloading &&  totalAmount.then((res)=>console.log(res))} */}
       <Header />
-      {isloading ? <div className="flex justify-center">Loading...</div> :
-        <div>
+      {isloading ? 
+      <div className="flex justify-center">Loading...</div> :
+        <div className='relative mb-[100px]'>
           {products.map((prod) => (
-            <div key={prod._id} className=' font-Roboto flex justify-around hover:border hover:border-purple-500 hover:cursor-pointer shadow-lg rounded-lg p-2 m-2'>
+            <div key={prod._id} className=' font-Roboto flex justify-evenly hover:border hover:border-purple-500 hover:cursor-pointer shadow-lg rounded-lg p-2 m-2'>
               <div  className='w-1/2'>
                 <div className='flex'>
                   <div className='m-2'>
@@ -45,7 +49,7 @@ const MyProfile = () => {
                   </div>
                   <div className='ml-4 flex items-center'>
                     <div>
-                      <div className="text-xl font-bold w-[400px]">{prod.product[0].name}</div>
+                      <div className="text-xl font-bold w-[300px]">{prod.product[0].name}</div>
                       <div className=''>{prod.product[0].brand}</div>
                       <div>{prod.product[0].ratings}</div>
                     </div>
@@ -64,9 +68,16 @@ const MyProfile = () => {
                           }}  className='w-[70px] flex justify-center rounded-r-lg border border-black hover:cursor-pointer hover:bg-gray-400'>+</div>
                     </div>
                 </div>
+                <div className='flex items-center w-[100px] mb-[25px] text-2xl font-bold'>₹ {prod.totalAmount}</div>
             </div>
           ))}
 
+          <div className=' mt-[15px] font-Roboto flex justify-between items-center fixed bottom-0  w-full h-[70px] border border-t-black z-10 bg-white pl-[130px]'>
+            <div className='text-2xl hover:text-red-600 hover:underline hover:cursor-pointer p-2'>Clear Cart</div>
+            <div className='hover:cursor-pointer p-2 flex justify-center items-center text-2xl w-[300px] h-[40px] rounded-lg hover:bg-orange-600 bg-[#fb641b]'>Place Order</div>
+            
+            <div className='w-[450px] text-3xl p-2 font-bold'>Subtotal: ₹{totalAmount}</div>
+          </div>
         </div>
       }
     </>
