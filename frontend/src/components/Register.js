@@ -1,13 +1,16 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { toast } from 'react-toastify'
 const REGISTER_USER = 'http://localhost:5001/register'
+const COPY_FROM_CART_TO_USER = 'http://localhost:5001/copyFromCartToUser'
 const Register = () => {
     const [name,setName]=useState("")
     const[email,setEmail]=useState("")
     const[password,setPassword]=useState("")
     const navigate= useNavigate()
+    const items = useSelector((store)=>store.cart.items)
 
     const registerUser=async()=>{
         const config={
@@ -28,6 +31,23 @@ const Register = () => {
             localStorage.setItem("userDetails",JSON.stringify({token:data.token,email:data.email}))
             navigate('/')
         }
+        const config2={
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem("userDetails")).token}`
+            }
+        }
+        let currToken  =  JSON.parse(localStorage.getItem("userDetails")).token
+        const addCartToUser = async(productId,Quantity)=>{
+            await axios.post(COPY_FROM_CART_TO_USER,{
+              token:currToken,
+              productId:productId,
+              Quantity:Quantity
+            },config2)
+        }
+        localStorage.getItem("userDetails") && items.length!==0 && items.map((item)=>(
+                  addCartToUser(item._id,item.Quantity)
+        ))
     }
     
   return (
