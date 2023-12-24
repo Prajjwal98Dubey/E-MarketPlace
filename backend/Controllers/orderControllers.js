@@ -82,9 +82,15 @@ const myHistory = async (req, res) => {
     myhistoryOrders.save()
     res.json(myhistoryOrders)
 }
-const removeMyCurrentOrder=async(req,res)=>{
-        const {id} = req.params
-        await Orders.deleteMany({user:id})
-        const myOrders = await Orders.find({user:id})
+const removeMyCurrentOrder = async (req, res) => {
+    const { id } = req.params
+    await Orders.deleteMany({ user: id })
+    const myOrders = await Orders.find({ user: id })
 }
-module.exports = { orderDetails, showOrders, removeFromProducts, removeFromMyCart, calculateTotalAmount, copyProductFromCartToUser, myHistory,removeMyCurrentOrder}
+const getMyOrderHistory = async (req, res) => {
+    const { token } = req.body
+    const userId = jwt.decode(token).id
+    const previousOrders = await historyOrder.find({ user:userId })
+    res.json(previousOrders)
+}
+module.exports = { orderDetails, showOrders, removeFromProducts, removeFromMyCart, calculateTotalAmount, copyProductFromCartToUser, myHistory, removeMyCurrentOrder, getMyOrderHistory }

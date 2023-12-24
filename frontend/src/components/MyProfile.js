@@ -43,6 +43,10 @@ const MyProfile = () => {
   return (
     <>
       <Header />
+      <div className='flex justify-end m-2'>
+      <Link to='/order-history'><div className=' flex justify-center items-center text-xl w-[160px] h-[40px] mr-2 bg-blue-400 hover:bg-blue-600 cursor-pointer rounded-lg'>
+        Previous Orders
+      </div></Link></div>
       {isloading ? 
       <div className="flex justify-center">Loading...</div> :
         <div className='relative mb-[100px]'>

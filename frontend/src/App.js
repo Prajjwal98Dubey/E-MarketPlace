@@ -13,6 +13,7 @@ import PaymentFailure from "./components/PaymentFailure";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import MyProfile from "./components/MyProfile";
+import PreviousOrders from "./components/PreviousOrders";
 
 
 function App() {
@@ -74,6 +75,10 @@ const appRouter = createBrowserRouter([
      {
           path:'/my-profile',
           element:<MyProfile/>
+     },
+     {
+          path:'/order-history',
+          element:<PreviousOrders/>
      }
 ])
 

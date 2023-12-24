@@ -65,7 +65,7 @@ app.delete('/product/delete/:id', async (req, res) => {
 const User = require('./models/user')
 const authToken = require('./utils/authToken')
 const { protect } = require('./utils/authMiddleware')
-const { orderDetails, showOrders, removeFromProducts, removeFromMyCart, calculateTotalAmount, copyProductFromCartToUser, myHistory, removeMyCurrentOrder } = require('./Controllers/orderControllers')
+const { orderDetails, showOrders, removeFromProducts, removeFromMyCart, calculateTotalAmount, copyProductFromCartToUser, myHistory, removeMyCurrentOrder, getMyOrderHistory } = require('./Controllers/orderControllers')
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body
     const check_email = await User.findOne({ email: email })
@@ -114,7 +114,7 @@ app.post('/totalCartAmount', protect, calculateTotalAmount)
 app.post('/copyFromCartToUser', protect, copyProductFromCartToUser)
 app.post('/myOrdersHistory', protect, myHistory)
 app.delete('/remove-current-order/:id',protect,removeMyCurrentOrder)
-
+app.post('/getmypreviousorders',protect,getMyOrderHistory)
 app.post('/create-checkout-session', async (req, res) => {
     console.log(req.body)
     try {
