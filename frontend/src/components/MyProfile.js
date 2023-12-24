@@ -44,7 +44,7 @@ const MyProfile = () => {
     <>
       <Header />
       <div className='flex justify-end m-2'>
-      <Link to='/order-history'><div className=' flex justify-center items-center text-xl w-[160px] h-[40px] mr-2 bg-blue-400 hover:bg-blue-600 cursor-pointer rounded-lg'>
+      <Link to='/order-history'><div className=' flex justify-center items-center text-xl w-[160px] h-[40px] text-white mr-2 bg-blue-500 hover:bg-blue-700 cursor-pointer rounded-lg'>
         Previous Orders
       </div></Link></div>
       {isloading ? 
@@ -74,7 +74,17 @@ const MyProfile = () => {
               </div>
               <div className='w-1/3 h-[200px] flex justify-center items-center'>
                     <div className=' flex justify-center items-center'>
-                        <div onClick={()=>handleRemoveFromMyCart(prod.productId,temp,setTemp)} className='w-[70px] flex justify-center rounded-l-lg border border-black hover:cursor-pointer hover:bg-gray-400'>-</div>
+                        <div onClick={()=>
+                        {
+                          if (prod.quantity > 1){
+                            handleRemoveFromMyCart(prod.productId,temp,setTemp)
+                          }
+                          else{
+                            handleRemoveProductFromMyCart(prod.productId,temp,setTemp)
+                          }
+                          
+                        }
+                            } className='w-[70px] flex justify-center rounded-l-lg border border-black hover:cursor-pointer hover:bg-gray-400'>-</div>
                         <div className='w-[70px] flex justify-center  border border-black'>
                           {prod.quantity}
                         </div>
