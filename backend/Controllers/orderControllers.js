@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const Product = require('../models/products')
 const Orders = require('../models/orders')
+const historyOrder = require('../models/orderHIstory')
 const jwt = require('jsonwebtoken')
 const orderDetails = async (req, res) => {
     const { token, productId } = req.body
@@ -33,7 +34,7 @@ const removeFromProducts = async (req, res) => {
     const { token, productId } = req.body
     const decoded = jwt.decode(token).id
     const checkProduct = await Orders.findOne({ user: decoded, productId: productId })
-    console.log(checkProduct)
+    // console.log(checkProduct)
     checkProduct.totalAmount -= checkProduct.product[0].price
     checkProduct.quantity -= 1
     checkProduct.save()
@@ -51,24 +52,39 @@ const calculateTotalAmount = async (req, res) => {
     const products = await Orders.find({ user: userId })
     let totalCartAmount = 0
     for (let i = 0; i < products.length; i++) {
-        totalCartAmount+=products[i].totalAmount
+        totalCartAmount += products[i].totalAmount
     }
-    res.json({totalCartAmount:totalCartAmount})
+    res.json({ totalCartAmount: totalCartAmount })
     return totalCartAmount
 }
-const copyProductFromCartToUser = async(req,res)=>{
-    const{token,productId,Quantity} = req.body
+const copyProductFromCartToUser = async (req, res) => {
+    const { token, productId, Quantity } = req.body
     const userId = jwt.decode(token).id
-    const product = await Product.find({_id:productId})
-    const amount = Quantity*product[0].price 
+    const product = await Product.find({ _id: productId })
+    const amount = Quantity * product[0].price
     const order = await Orders.create({
-        user:userId,
-        productId : productId,
-        product:product,
-        quantity:Quantity,
-        totalAmount:amount
+        user: userId,
+        productId: productId,
+        product: product,
+        quantity: Quantity,
+        totalAmount: amount
     })
     order.save()
-    res.json({order})
+    res.json({ order })
 }
-module.exports = { orderDetails, showOrders, removeFromProducts, removeFromMyCart ,calculateTotalAmount,copyProductFromCartToUser }
+const myHistory = async (req, res) => {
+    const { token, products } = req.body
+    const userId = jwt.decode(token).id
+    const myhistoryOrders = await historyOrder.create({
+        user: userId,
+        history: products
+    })
+    myhistoryOrders.save()
+    res.json(myhistoryOrders)
+}
+const removeMyCurrentOrder=async(req,res)=>{
+        const {id} = req.params
+        await Orders.deleteMany({user:id})
+        const myOrders = await Orders.find({user:id})
+}
+module.exports = { orderDetails, showOrders, removeFromProducts, removeFromMyCart, calculateTotalAmount, copyProductFromCartToUser, myHistory,removeMyCurrentOrder}

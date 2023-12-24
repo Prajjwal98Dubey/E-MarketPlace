@@ -88,10 +88,9 @@ const MyProfile = () => {
 
             <div className='cursor-pointer relative' onMouseEnter={()=>setIsHoveredLogout(true)} onMouseLeave={()=>setIsHoveredLogout(false)} onClick={()=>handleLogOut()}><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out transform rotate-180"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg></div>
             {isHoveredLogout && <div className='absolute left-11 bottom-1 w-[90px] h-[30px] flex justify-center bg-gray-300 rounded-lg items-center '>Logout</div>}
-            <div className='text-2xl hover:text-red-600 hover:underline hover:cursor-pointer p-2'>Clear Cart</div>
+            {products.length >0 && <><div className='text-2xl hover:text-red-600 hover:underline hover:cursor-pointer p-2'>Clear Cart</div>
             <div onClick={()=>handleCheckout(conversionToStripeArray(products))}  className='hover:cursor-pointer p-2 flex justify-center items-center text-2xl w-[300px] h-[40px] rounded-lg hover:bg-orange-600 bg-[#fb641b]'>Place Order</div>
-            
-            <div className='w-[450px] text-3xl p-2 font-bold'>Subtotal: ₹{totalAmount}</div>
+            <div className='w-[450px] text-3xl p-2 font-bold'>Subtotal: ₹{totalAmount}</div></> }
           </div>
         </div>
       }
