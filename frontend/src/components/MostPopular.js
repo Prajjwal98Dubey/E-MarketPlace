@@ -1,107 +1,79 @@
-import React from 'react'
-import {useState,useEffect} from 'react'
-import {Link} from 'react-router-dom'
-const API="http://localhost:5001/products"
-
+import axios from 'axios'
+import React, { useCallback, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { DUMMY_IMG } from './helper/images'
+const ALL_PRODUCTS = 'http://localhost:5001/all'
 const MostPopular = () => {
-    const[products,setProducts]=useState([])
-    const [isLoading,setIsLoading]=useState(true)
-    useEffect(()=>{
-        const getProducts=async()=>{
-            const data = await fetch(API)
-            const json=await data.json()
-            setProducts(json)
-            setIsLoading(false)
-        }
-        getProducts()
-    
-
-    },[])
-    if(isLoading){
-      return <div className='flex justify-center items-center'>Loading...</div>
+  const [products, setProducts] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const[limit,setLimit] = useState(9)
+  const observer = useRef()
+  const lastProductObject = useCallback(node => {
+    if (isLoading) return
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+          setLimit(limit=>limit+9)
+      }
+    },{
+      rootMargin:"0px 0px 300px 0px"
+    })
+    if (node) observer.current.observe(node)
+  }, [isLoading])
+  useEffect(() => {
+    const config = {
+      headers: {
+        'Content-type': 'application/json'
+      }
     }
-
-    const getPopular = (products,categories)=>{
-        const data = products.filter((prod)=>prod.category===categories)
-        let maxiRating=-1
-        let maxiObj=null
-        for(const d of data){
-           if(d.ratings > maxiRating)
-           {
-            maxiRating=d.ratings
-            maxiObj=d
-           }
-        }
-        return maxiObj      
+    const getProducts = async () => {
+      const { data } = await axios.get(`${ALL_PRODUCTS}?skip=${limit-9}&limit=${limit}`, config)
+      setProducts([...products,...data])
+      setIsLoading(false)
     }
+    getProducts()
+  }, [limit])
   return (
-    <div className='bg-white w-full h-full flex flex-wrap mt-2 rounded-lg p-2 font-Roboto'>
-      <Link to={'/product?pid='+getPopular(products,"Electronics")._id}><div className=' hover:cursor-pointer w-[400px] h-[500px] hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
-        <div className='flex justify-center items-center'>
-        <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Electronics").image} alt="loading" />
-        </div>
-        <div className='text-2xl font-bold text-center m-3'>{getPopular(products,"Electronics").name}</div>
-        <div className='font-light text-sm text-center m-3 '>{getPopular(products,"Electronics").description}</div>
-        <div className='text-center font-bold text-3xl m-2'>₹{getPopular(products,"Electronics").price}</div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div>
-      </Link>
+    <>
+      <div className='bg-white w-full h-full flex flex-wrap mt-2 rounded-lg p-2 font-Roboto'>
+        {
+          isLoading ? <div className='flex justify-center font-Roboto font-semibold'>Loading...</div> :
+            products.map((prod, index) => {
+              if (products.length === index + 1) {
+                return <div key={index} ref={lastProductObject} className='flex justify-center items-center'>
+                  <div className=' hover:cursor-pointer w-[400px] h-fit hover:bg-blue-200 hover:rounded-xl hover:shadow-xl p-2'>
+                    <div className='flex justify-center items-center'>
+                      <img className="w-[300px] h-[200px] rounded-xl" src={prod.image!==null ? prod.image : DUMMY_IMG } alt="loading" />
+                    </div>
+                    <div className='text-2xl font-bold text-center m-3'>{prod.name}</div>
+                    <div className='font-light text-sm text-center m-3 '>{prod.description}</div>
+                    <div className='text-center font-bold text-3xl m-2'>₹{prod.price}</div>
+                    <Link to={"/buy?pid=" + prod._id}><div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div></Link>
+                    <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
+                  </div>
+                </div>
+              }
+              else {
+                return <div key={index} className='flex justify-center items-center'>
+                  <div className=' hover:cursor-pointer w-[400px] h-fit hover:bg-blue-200 hover:rounded-xl hover:shadow-xl p-2'>
+                    <div className='flex justify-center items-center'>
+                      <img className="w-[300px] h-[200px] rounded-xl" src={prod.image!==null ? prod.image : DUMMY_IMG } alt="loading" />
+                    </div>
+                    <div className='text-2xl font-bold text-center m-3'>{prod.name}</div>
+                    <div className='font-light text-sm text-center m-3 '>{prod.description}</div>
+                    <div className='text-center font-bold text-3xl m-2'>₹{prod.price}</div>
+                    <Link to={"/buy?pid=" + prod._id}><div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div></Link>
+                    <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
+                  </div>
+                </div>
+              }
+            }
+            )
 
-      <Link to={'/product?pid='+getPopular(products,"Automobile")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
-        <div className='flex justify-center items-center'>
-        <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Automobile").image} alt="loading" />
-        </div>
-        <div className='text-2xl font-bold text-center m-3'>{getPopular(products,"Automobile").name}</div>
-        <div className='font-light text-sm text-center m-3 '>{getPopular(products,"Automobile").description}</div>
-        <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"Automobile").price}</div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div></Link>
-      <Link to={'/product?pid='+getPopular(products,"Clothing")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
-        <div className='flex justify-center items-center'>
-        <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Clothing").image} alt="loading" />
-        </div>
-        <div className='text-2xl font-bold text-center m-3'>{getPopular(products,"Clothing").name}</div>
-        <div className='font-light text-sm text-center m-3 '>{getPopular(products,"Clothing").description}</div>
-        <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"Clothing").price}</div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div></Link>
-      <Link to={'/product?pid='+getPopular(products,"Games")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
-        <div className='flex justify-center items-center'>
-        <img className="w-[400px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Games").image} alt="loading" />
-        </div>
-        <div className='text-2xl font-bold text-center m-3'>{getPopular(products,"Games").name}</div>
-        <div className='font-light text-sm text-center m-3 '>{getPopular(products,"Games").description}</div>
-        <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"Games").price}</div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div></Link>
-      <Link to={'/product?pid='+getPopular(products,"Shoes")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
-        <div className='flex justify-center items-center'>
-        <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"Shoes").image} alt="loading" />
-        </div>
-        <div className='text-2xl font-bold text-center m-3'>{getPopular(products,"Shoes").name}</div>
-        <div className='font-light text-sm text-center m-3 '>{getPopular(products,"Shoes").description}</div>
-        <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"Shoes").price}</div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div></Link>
-      <Link to={'/product?pid='+getPopular(products,"HomeandFurniture")._id}><div className=' hover:cursor-pointer w-[400px] h-[480px]  hover:bg-blue-200 hover:rounded-xl hover:shadow-xl m-1'>
-        <div className='flex justify-center items-center'>
-        <img className="w-[300px] h-[200px] m-3 rounded-xl" src={getPopular(products,"HomeandFurniture").image} alt="loading" />
-        </div>
-        <div className='text-2xl font-bold text-center m-3'>{getPopular(products,"HomeandFurniture").name}</div>
-        <div className='font-light text-sm text-center m-3 '>{getPopular(products,"HomeandFurniture").description}</div>
-        <div className='text-center font-bold text-3xl m-3'>₹{getPopular(products,"HomeandFurniture").price}</div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-green-500 rounded-lg m-1 hover:bg-green-600'>BUY NOW</button></div>
-        <div className='flex justify-center'><button className='w-[300px] h-[40px] font-bold  bg-orange-400 rounded-lg hover:bg-orange-600'>ADD TO CART</button></div>
-      </div></Link>
-    
-    
-    
-    </div>
+        }
+      </div>
+    </>
   )
 }
 

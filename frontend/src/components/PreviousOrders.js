@@ -38,6 +38,7 @@ const PreviousOrders = () => {
             <div className='flex justify-center text-xl mt-4 font-Roboto font-bold'>Order Summary</div>
             <div className='font-Roboto'>
                 {isLoading ? <div className='flex justify-center text-xl font-semidbold mt-5'>Loading...</div> :
+                orders.length===0 ? <div className='text-xl text-center font-medium mt-[15px] '>No Previous Orders...</div> :
                     <div className='mb-[30px]'>
                         {
                             orders.map((order)=>(
@@ -70,6 +71,7 @@ const PreviousOrders = () => {
                         }
 
                     </div>
+
                 }
             </div>
         </>

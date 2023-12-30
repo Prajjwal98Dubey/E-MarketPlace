@@ -93,4 +93,16 @@ const getMyOrderHistory = async (req, res) => {
     const previousOrders = await historyOrder.find({ user:userId })
     res.json(previousOrders)
 }
-module.exports = { orderDetails, showOrders, removeFromProducts, removeFromMyCart, calculateTotalAmount, copyProductFromCartToUser, myHistory, removeMyCurrentOrder, getMyOrderHistory }
+const allProducts=async(req,res)=>{
+    const skip = req.query.skip
+    const limit = req.query.limit
+    const products = await Product.find({})
+    let newProducts=[]
+    for(let i=parseInt(skip);i<parseInt(limit)+parseInt(skip);i++)
+    {
+        newProducts.push(products[i])
+    }
+    res.json(newProducts)
+}
+
+module.exports = { orderDetails, showOrders, removeFromProducts, removeFromMyCart, calculateTotalAmount, copyProductFromCartToUser, myHistory, removeMyCurrentOrder, getMyOrderHistory,allProducts}
