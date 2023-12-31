@@ -4,16 +4,30 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { DUMMY_IMG } from './helper/images'
 const ALL_PRODUCTS = 'http://localhost:5001/all'
+const GET_TOTAL_PRODUCTS='http://localhost:5001/products'
 const MostPopular = () => {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const[limit,setLimit] = useState(9)
+  const[total,setTotal]=useState(10)
   const observer = useRef()
+  useEffect(()=>{
+    const config = {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    }
+    const getTotal = async()=>{
+      const {data} = await axios.get(GET_TOTAL_PRODUCTS,config)
+      setTotal(data.length)
+    }
+    getTotal()
+  },[])
   const lastProductObject = useCallback(node => {
     if (isLoading) return
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
+      if (entries[0].isIntersecting ) {
           setLimit(limit=>limit+9)
       }
     },{
@@ -21,6 +35,7 @@ const MostPopular = () => {
     })
     if (node) observer.current.observe(node)
   }, [isLoading])
+  
   useEffect(() => {
     const config = {
       headers: {
@@ -28,7 +43,7 @@ const MostPopular = () => {
       }
     }
     const getProducts = async () => {
-      const { data } = await axios.get(`${ALL_PRODUCTS}?skip=${limit-9}&limit=${limit}`, config)
+      const { data } = await axios.get(`${ALL_PRODUCTS}?skip=${limit-9}&limit=9`, config)
       setProducts([...products,...data])
       setIsLoading(false)
     }
@@ -36,6 +51,7 @@ const MostPopular = () => {
   }, [limit])
   return (
     <>
+    {console.log(total)}
       <div className='bg-white w-full h-full flex flex-wrap mt-2 rounded-lg p-2 font-Roboto'>
         {
           isLoading ? <div className='flex justify-center font-Roboto font-semibold'>Loading...</div> :

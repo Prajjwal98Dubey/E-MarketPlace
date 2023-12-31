@@ -98,8 +98,9 @@ const allProducts=async(req,res)=>{
     const limit = req.query.limit
     const products = await Product.find({})
     let newProducts=[]
-    for(let i=parseInt(skip);i<parseInt(limit)+parseInt(skip);i++)
-    {
+    for(let i=parseInt(skip);i<parseInt(skip)+9;i++)
+    {   
+        if(!products[i]) continue
         newProducts.push(products[i])
     }
     res.json(newProducts)
